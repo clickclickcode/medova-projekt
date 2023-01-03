@@ -1,0 +1,822 @@
+/*---------------------------------------- FONT IMPORT ----------------------------------------*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+/*---------------------------------------- CUSTOM PROPERTIES/VARIABLES ----------------------------------------*/
+
+
+:root {
+    /* farver */
+    --jet: #353535;
+    --ivory: #fffff3;
+
+    /*--- MOBILE ---*/
+
+    /* font-size - fs - mobile */
+    --h1-fs-m: 1.8rem;
+    --h2-fs-m: 1.6rem;
+    --h2-titel-fs-m: 1rem;
+    --h3-fs-m: 1.4rem;
+    --p-fs-m: 1rem;
+    --p-small-fs-m: .625rem;
+    --a-list-fs-m: 1rem;
+    --a-menu-fs-m: 1.2rem;
+
+    /* font-weight - fw - mobile */
+    --h1-fw-m: 100;
+    --h2-fw-m: 600; /* Ikke i brug */
+    --h3-fw-m: 300;
+    --p-fw-m: 400;
+    --p-title-fw-m: 200;
+    --p-loop-fw-m: 500;
+    --a-list-fw-m: 400;
+
+    /* letter-spacing - ls - mobile */
+    --h1-ls-m: .5rem;
+    --h2-ls-m: .5rem; /* Ikke i brug */
+    --h3-ls-m: .5rem;
+    --p-ls-m: .5rem;
+    --a-ls-menu-m: .5rem;
+
+    /* line-height - lh -mobile */
+    --h1-lh-m: 1.5rem;
+    --h2-lh-m: 1.5rem;
+    --h3-lh-m: 1.5rem;
+    --p-lh-m: 1.1rem;
+    --a-list-lh-m: 1.5rem;
+}
+
+
+
+/*---------------------------------------- GLOBAL PROPERTIES ----------------------------------------*/
+
+
+* {
+    margin: 0; /* Ingen margin */
+    padding: 0; /* Ingen padding */
+    box-sizing: border-box; /* Padding og border er inkluderet i en containers definerede width og height */
+    font-family: 'Raleway', Helvetica, sans-serif; /* Primær font 'Raleway', fallback fonts Helvetica og sans-serif */
+    text-decoration: none; /* Ingen streger under <a>-tags */
+    list-style: none; /* Ingen "punkter" foran list items */
+}
+
+
+
+/*---------------------------------------- BODY + GENEREL PROPERTIES ----------------------------------------*/
+
+
+body {
+    width: 100vw; /* Bredden på body - 100 view width */
+    overflow: auto; /* Tilføjet så det er muligt at scroll' i overlays når de er synlige, uden altid at scroll' i body'en */
+
+    /* Jeg satte en minimum bredde på body, men det resulterede i, 
+    at hver gang man ser siden i iPhone X format (375px wide - den bredde der er designet efter) 
+    i DevTools i Chrome browseren, så er siden zoomet ind, således at hele højre side af siden, inklusiv hamburger menu, er ude af viewporten.
+    
+    Det er lidt sært, men også interessant. */
+
+    /*min-width: 375px;*/ /* Minimum bredde på body */
+}
+
+
+h1, h2, h3, p, a {
+    text-align: center; /* Centrering af teksten i de angivede selectorer */
+}
+
+
+
+/*---------------------------------------- HEADER ----------------------------------------*/
+
+/* fp = frontpage */
+header.fp {
+ width: 100%; /* Bredde på header - forside. 100% af body som er 100vw */
+ height: 25.625rem; /* Højden på header - forside */ /* 410px */
+ display: flex; /* Header.fp er nu en flex container */
+ flex-direction: column; /* Flex-retningen er kolonne */
+}
+
+/* header-sub = header-under = header på undersider/sider der IKKE er forsiden */
+header.header-sub {
+    width: 100%; /* Bredde på header - forside. 100% af body som er 100vw */
+    height: 15.625rem; /* Højden på header - underside */
+}
+
+/* Wrapper til hele navigationsbaren, indeholdende logo, branding og hamburger menu */
+.topnav-wrapper {
+    height: 4rem; /* Højde på navigationsbaren */
+    display: flex; /* Wrapperen er en flex-container */
+    flex-direction: column; /* Flex-retningen er kolonne */
+    z-index: 5; /* Wrapper inklusiv indhold ligger over de andre "lag" på siden */
+    position: fixed; /* Wrapperen inklusiv indhold forbliver på dens position */
+}
+
+/* Styling af selve navbaren */
+.topnav {
+    width: 100vw; /* Bredde på selve navbaren */
+    height: 4rem; /* Højde på navbaren */
+    display: flex; /* Navbaren er nu en flex-container */
+    justify-content: space-between; /* Navbarens flex children er nu horisontalt (flex-direction row er default) fordelt med "space-between" */
+    position: fixed; /* Navbarens pladsering er fixed/låst */
+
+    /* top: 0; */
+
+    z-index: 5; /* Gør så navbaren ligger over menu-overlay'et, således at det stadig er muligt at trykke på logo og hamburger menu knappen */
+    padding: 0 .5rem; /* 0 padding top og bottom, .5 rem padding left og right for at få logo og hamburger menu ind fra kanterne */
+
+    /* til burger menu */
+    /* overflow: hidden; */ /* Måske ikke nødvendigt */
+}
+
+/*--- VORES SKJULTE DEL AF MENUEN ---*/
+.topnav-wrapper #navlinks {
+    visibility: hidden; /* Den er skjult og ikke display: none; da man ikke kan animere elementer der er display: none; */
+    height: 100vh; /* Højde på menuen */
+    width: 100vw; /* Bredde på menuen */
+
+    /* position: relative; */ /* Måske en rest fra udviklingsprocessen */
+    
+    text-align: center; /* Centrerer menuens dekoration/img */
+}
+
+/*--- CLASS SOM KØRER LUKKE ANIMATIONEN PÅ VORES MENU ---*/
+.not-open {
+    /* visibility: hidden; */ /* Måske en rest fra udviklingsprocessen */
+    animation: .5s not-open 1 forwards; /* animationens længde - .5 sekunder, animationens navn - not-open, antal repetationer - 1, animationens 'fill-mode' - forwards (den ændring animationen bringer forbliver indtil andet ændrer det) */
+}
+
+/*--- CLASS SOM KØRER ÅBNE ANIMATIONEN PÅ VORES MENU ---*/
+.open {
+    /* visibility: visible; */ /* Måske en rest fra udviklingsprocessen */
+    animation: .5s open 1 forwards; /* animationens længde - .5 sekunder, animationens navn - open, antal repetationer - 1, animationens 'fill-mode' - forwards (den ændring animationen bringer forbliver indtil andet ændrer det) */
+}
+
+/* Wrapper i <nav> elementet som indeholder menuens links of menuens dekoration/img */
+.inner-links-wrapper {
+    display: flex; /* Containeren er en flex-container */
+    flex-direction: column; /* Flex-retningen er kolonne */
+    padding-top: 4rem; /* Der er 4rem padding i toppen for at gøre plads til .topnav som har højere z-index og derfor ligger over denne */
+    letter-spacing: var(--a-ls-menu-m); /* Teksten (som er <a>-tags) får mere letter-spacing */
+}
+
+/* Menuens links */
+.inner-links-wrapper a {
+    /* display: block; */ /* Måske en rest fra udviklingsprocessen */
+    line-height: var(--h1-lh-m); /* Line-height for menuens links */
+    font-size: var(--a-menu-fs-m); /* Menuens links font størrelse */
+    padding: .5rem 0; /* Padding på menuens links - .5rem top og bund, 0 på left og right */
+}
+
+
+/* Animation til at åbne menuen - kører op */
+@keyframes open {
+    0% {
+        transform: translateY(100vh); /* Starter i punktet '100vh' (bunden af viewporten) på y-aksen */
+    }
+
+    /*1% {*/
+        /* visibility: visible; */ /* Måske en rest fra udviklingsprocessen */
+    /*}*/
+
+    100% {
+        transform: translateY(0vh); /* Slutter i punktet '0vh' (toppen af viewporten) på y-aksen */
+        visibility: visible; /* Da menuen har visibility: hidden; gøres den her visible */
+    }
+}
+
+/* Animation til at lukke menuen - kører ned */
+@keyframes not-open {
+    0% {
+        visibility: visible; /* Da menuen er sat til visibility: hidden den skal sættes til visible for at vi kan se lukke animationen */
+        transform: translateY(0vh); /* Starter i punktet '0vh' på y-aksen */
+    }
+    100% {
+        transform: translateY(100vh); /* Slutter i punktet '100vh' på y-aksen */
+        visibility: hidden; /* Menuen er nu hidden igen som den var som udgangspunkt */
+    }
+}
+
+/* font-farve de steder, hvor den skal være lys */
+.topnav, footer, .a-foot, .inner-links-wrapper a {
+    color: var(--ivory); /* Farven på tekst i de ovennævnte selectors */
+}
+
+/* Baggrundsfarve i header, footer, .topnav og menu */
+header, .topnav, footer, .topnav-wrapper #navlinks {
+    background-color: var(--jet);
+}
+
+/* Centrerer horisontalt de tre elementer i .topnav i deres individuelle containere - logo, title, menu-btn */
+.topnav .logo-wrapper, .topnav .titel, .menu {
+    display: flex; /* De er flex-containers */
+    justify-content: center; /* De er horisontalt centrerede */
+}
+
+/* .titel container - sidens 'branding' - placeret top-mid - 'MEDOVA - 100% sort té' */
+.titel {
+    flex-direction: column; /* Flex-retningen er kolonne (containeren er allerede en flex-container - se ovenfor) */
+}
+
+/* Titel i undersidernes header */
+.title-sub {
+    margin: 0 auto; /* Centrerer teksten */
+    width: 90vw; /* Bredden på containeren */
+    max-width: 31.25rem; /* Maks-bredde på containeren */
+}
+
+/* Letter-spacing og font-weight på h2 i 'brandingen', h2 i main, h1 i undersidernes titel og h1 på forsiden */
+.titel h2, main h2, .title-sub h1, .art-fp-mobile h1 {
+    letter-spacing: var(--h1-ls-m); 
+    font-weight: var(--h1-fw-m);
+}
+
+/* Letter-spacing og font-weight på p i 'brandingen' og p i undersidernes "titel teasertekst" */
+.titel p, .title-sub p {
+    letter-spacing: var(--p-ls-m);
+    font-weight: var(--p-title-fw-m);
+}
+
+/* Font-size og padding på h1 i undersidernes titel */
+.title-sub h1 {
+    font-size: var(--h1-fs-m);
+    padding: 4rem 0 1rem 0;
+}
+
+/* Font-size på h2 i 'branding' */
+.titel h2 {
+    font-size: var(--h2-titel-fs-m);
+}
+
+/* Font-size og padding på p i undersidernes titel teasertekst */
+.title-sub p {
+    font-size: var(--p-fs-m);
+    padding: .5rem 0 1.5rem 0;
+}
+
+/* Font-size på p i 'branding' */
+.titel p {
+    font-size: var(--p-small-fs-m);
+}
+
+/* Wrapper til logo */
+.logo-wrapper {
+    align-items: center; /* Centrerer containerens children vertikalt */
+}
+
+/* Selve logoet/img */
+.logo {
+    width: 2.625rem; /* Logoets bredde */
+    height: 2.625rem; /* Logoets højde */
+}
+
+/* Hamburger menuen - er gjort til flex container i linje 218 */
+.menu {
+    flex-direction: column; /* Flex-retningen er kolonne */
+    /* align-items: flex-end; */ /* Måske en rest fra udviklingsprocessen */
+    /*padding-right: .5rem;*/
+}
+
+/* Dekoration af menuen */
+.menudeco img {
+    width: 100vw; /* Bredde på dekoration */
+    max-width: 425px; /* Maks-bredde på dekoration */
+}
+
+
+
+/*---------------------------------------- BURGER START ----------------------------------------*/
+
+/* Hamburger btn */
+#btn {
+    width: 25px; /* Bredde på #btn */
+    cursor: pointer; /* Cursoren bliver en pointer/pegefinder når man hover over hamburger menuen */
+}
+
+/* De spans der udgør hamburger menuen */
+span.burger-bar {
+    display: block; /* De er nu block elements */
+    width: 25px; /* De er 25 px brede */
+    border-radius: 3px; /* Enderne er afrundet */
+    height: 4px; /* De er 4 px høje */
+    background-color: var(--ivory); /* Deres baggrundsfarve er --Ivory */
+    transition: all .3s; /* Vælger alle spans for deres overgang og sætter overgangstiden til .3 sekunder */
+    position: relative; /* Deres position er relativ til deres ancestor/den container de er i */
+}
+
+/* Vælger span.burger-bar, hvis den ligger lige op af span.burger-bar */
+span.burger-bar+span.burger-bar {
+    margin-top: .5rem; /* .5rem top margin på de to nederste span.burger-bar for at skabe mellemrum mellem dem */
+}
+
+
+/* burgermenu animation */
+
+/* Første span ved åbning af menuen */
+.active span:nth-child(1) {
+    animation: ease .7s top forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'top', fill-mode - forwards */
+}
+/* Første span ved lukning af menuen */
+.not-active span:nth-child(1) {
+    animation: ease .7s top-2 forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'top-2', fill-mode - forwards */
+}
+
+/* Anden span ved åbning af menuen */
+.active span:nth-child(2) {
+    animation: ease .7s scaled forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'scaled', fill-mode - forwards */
+}
+/* Anden span ved lukning af menuen */
+.not-active span:nth-child(2) {
+    animation: ease .7s scaled-2 forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'scaled-2', fill-mode - forwards */
+}
+
+/* Tredje span ved åbning af menuen */
+.active span:nth-child(3) {
+    animation: ease .7s bottom forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'bottom', fill-mode - forwards */
+}
+/* Tredje span ved lukning af menuen */
+.not-active span:nth-child(3) {
+    animation: ease .7s bottom-2 forwards; /* "ease'er" ind og ud af animationen, tager .7 sekunder, navn - 'bottom-2', fill-mode - forwards */
+}
+
+/* Animation - top. Øverste span/bar rykker fra top til midt og roterer 45 grader */
+@keyframes top {
+    0% {
+        top: 0;
+        transform: rotate(0);
+    }
+    50% {
+        top: 12px;
+        transform: rotate(0);
+    }
+    100% {
+        top: 12px;
+        transform: rotate(45deg);
+    }
+}
+
+/* Animation - top-2. Øverste span/bar roterer 45 grader og rykker tilbage fra midt til top */
+@keyframes top-2 {
+    0% {
+        top: 12px;
+        transform: rotate(45deg);
+    }
+    50% {
+        top: 12px;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 0;
+        transform: rotate(0deg);
+    }
+}
+
+/* Animation - bottom. Nederste span/bar rykker fra bund til midt og roterer 135 grader */
+@keyframes bottom {
+    0% {
+        bottom: 0;
+        transform: rotate(0);
+    }
+    50% {
+        bottom: 12px;
+        transform: rotate(0);
+    }
+    100% {
+        bottom: 12px;
+        transform: rotate(135deg);
+    }
+}
+
+/* Animation - bottom-2. Nederste span/bar roterer 135 grader og rykker fra midt til bund */
+@keyframes bottom-2 {
+    0% {
+        bottom: 12px;
+        transform: rotate(135deg);
+    }
+    50% {
+        bottom: 12px;
+        transform: rotate(0);
+    }
+    100% {
+        bottom: 0;
+        transform: rotate(0);
+    }
+}
+
+/* Animation - scaled. Midterste span/bar forsvinder */
+@keyframes scaled {
+    50% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+/* Animation - scaled-2. Midterste span/bar vises igen */
+@keyframes scaled-2 {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/*---------------------------------------- BURGER END ----------------------------------------*/
+
+
+/*---------------------------------------- HERO START ----------------------------------------*/
+
+
+/*----- FORSIDE HERO -----*/
+
+
+/*--- HERO GENEREL ---*/
+.hero {
+    width: 100vw; /* Bredde på container */
+    display: flex; /* Containeren er nu en flex-container */
+    flex-direction: column; /* Flex-retningen er kolonne */
+    justify-content: center; /* Children er vertikalt centrerede (da flex-retningen er kolonne) */
+    align-items: center; /* Children er horisontalt centrerede (da flex-retningen er kolonne */
+    overflow: hidden; /* Overflow er skjult og indhold flyder ikke udover containerens begrænsning */
+}
+
+/*--- Wrapper der indeholder hero billede til mobile ---*/
+.inner-hero-wrapper.mobile { 
+    width: 100vw; /* Bredde på wrapper */
+    max-width: 100%; /* Maks-bredde på wrapper */
+    display: flex; /* Wrapper er en flex-container */
+    justify-content: center; /* Children er horisontalt centrerede */
+}
+
+/* Wrapper der indeholder hero billede til tablet */
+.inner-hero-wrapper.tablet { 
+    display: none; /* display: none; per default - ændres i media queries */
+}
+
+/* Wrapper der indeholder hero billede til desktop */
+.inner-hero-wrapper.desktop { 
+    display: none; /* display: none; per default - ændres i media queries */
+}
+
+/*--- VORES HERO BILLEDE ---*/
+.fp-aeske {
+    width: 250%; /* Bredde er 250% for at få den rette størrelse og for at der ikke opstår kanter på skyggerne når viewport udvides */
+    max-width: 67.5rem; /* Maks-bredde 67.5rem = 1080px */
+    position: relative; /* Position relativt til dens ancestor */
+    left: -5px; /* Billedet er rykket 5px til venstre for bedre centrering da æsken ikke var ordentligt centreret på selve png-filen */
+}
+
+/*--- EN WRAPPER TIL VORES HERO KNAP ---*/
+.hero-btn-wrapper {
+    position: relative; /* Position relativt til ancestor */
+    top: -7.8125rem; /* Er rykket 7.8125rem opad */
+    width: 10.9375rem; /* Bredde på knappens wrapper */
+    height: 1.875rem; /* Wrappers højde */
+    padding: .5625rem 0; /* Padding top og bund - .5625rem, left og right - 0 */
+    margin-bottom: .5rem; /* Margin bottom på wrapper */
+    background-color: var(--ivory); /* Baggrundsfarve */
+    border-radius: 1.25rem; /* Wrapperens ender/hjørner er afrundede */
+    font-size: var(--p-fs-m); /* Font-size i wrapper/knappen */
+    font-weight: var(--p-fw-m); /* Font-weight i wrapper/knappen */
+    display: flex; /* Wrapper er en flex-container */
+    justify-content: center; /* Wrappers children er horisontalt centrerede */
+    align-items: center; /* Wrappers children er vertikalt centrerede */
+}
+
+/*--- VORES HERO KNAP ---*/
+.hero-btn {
+    color: var(--jet); /* Knappens tekst er --jet */
+    letter-spacing: var(--p-ls-m); /* Letter-spacing i knappen */
+}
+
+/*----- FORSIDE HERO END -----*/
+
+/*-- SUB SIDE HERO --*/
+.hero-sub {
+    height: 100%; /* Undersidens hero højde er 100% af dens ancestor - header-sub  */
+    display: flex; /* Container er en flex-container */
+    flex-direction: column; /* Flex-retning er kolonne */
+    justify-content: center; /* Children er centreret horisontalt (da flex-retningen er kolonne) */
+    color: var(--ivory); /* Teksten er --ivory */
+}
+
+
+/* ------------------------ HERO END --------------------------*/
+
+/*---------------------------------------- HEADER END ----------------------------------------*/
+
+
+
+/* ------------------------ MAIN START --------------------------*/
+
+/*--- MAIN GENEREL ---*/
+main {
+    width: 100vw; /* Main's bredde */
+    background-color: var(--ivory); /* Baggrundsfarve */
+}
+
+/*--- VORES H2 I VORES MAIN ---*/
+main h2 {
+    font-size: var(--h2-fs-m); /* Font-size på h2 i main  */
+    line-height: var(--h2-lh-m); /* Line-height på h2 i main  */
+    padding: 2rem 0; /* Padding på h2 i main - top og bund - 2rem, left og right - 0 */
+    width: 90vw; /* Bredde på h2 i main  */
+}
+
+/*--- VORES <P> I VORES MAIN ---*/
+main p {
+    width: 90vw; /* Bredde på p i main */
+    max-width: 31.25rem; /* Maks bredde på p i main */
+}
+
+/* Broedtekst - paragraph elementer */
+.broed {
+    font-weight: var(--p-fw-m);
+    font-size: var(--p-fs-m);
+    line-height: var(--p-lh-m);
+}
+
+/* Anchor tags i broedtekst */
+.broed a {
+    color: var(--ivory); /* Links er --ivory */
+}
+
+
+/*--- FORSIDE ---*/
+
+
+/*--- VORES ARTICLE I MAIN PÅ FORSIDEN, INSPIRATION, OM MEDOVA OG SORT TÉ ---*/
+main .art-fp-mobile, main .art-insp-mobile, main .art-om-mobile, main .art-te-mobile, main .overlay-article {
+    display: flex; /* Disse er nu flex-containere */
+    flex-direction: column; /* Flex-retnignen er kolonne */
+    align-items: center; /* Deres children er horisontalt centrerede */
+}
+
+/* Titel på forsiden - 'Konkurrence' */
+.art-fp-mobile h1 {
+    padding: 2rem 0 1rem 0; /* Padding: top - 2rem, højre - 0, bund - 1 rem, venstre - 0 */
+}
+
+/*--- EN SELECTOR TIL DEN SIDSTE <P> I VORES SECTION PÅÅ FORSIDEN - RAMMER BÅDE P I MAIN OG P I LOOPEREN - HAR SAMME EFFEKT UDEN :last-of-type ---*/
+.art-fp-mobile p:last-of-type {
+    padding-top: 2rem; 
+}
+
+/*--- EN WRAPPER TIL VORES TEKST LOOPER PARAGRAPH TIL FORSIDEN ---*/
+#looper {
+    height: 6rem; /* Wrapperens højde */
+}
+
+/*--- VORES TEKST LOOPER PARAGRAPH TIL FORSIDEN ---*/
+#words {
+    font-weight: var(--p-loop-fw-m); /* Looperens font-weight */
+}
+
+
+/*--- FORSIDE END ---*/
+
+
+/*--- INSPIRATIONS SIDE ---*/
+
+/*--- VORES ARTICLES I MAIN PÅ INSPIRATION, OM MEDOVA OG SORT TÉ ---*/
+main .art-insp-mobile p, main .art-om-mobile p, main .art-te-mobile p {
+    padding: 0 0 1rem 0; /* Padding: top - 0, højre - 0, bund - 1rem, venstre - 0 */
+}
+
+/*--- OVERLAY TIL VORES OPSKRIFTER ---*/
+.overlay-wrapper {
+    width: 100%; /* 100% af main's bredde */
+    height: 100%; /* 100% af main's højde */
+    display: none; /* Display none, da det ikke skal være synligt før man trykker på knapperne */
+}
+
+/* Selve artiklen i overlay'et */
+.overlay-article {
+    position: fixed; /* Positionen er fixed */
+    width: 100%; /* 100% af .overlay-wrapper's bredde */
+    height: 100%; /* 100% af .overlay-wrapper's højde */
+    top: 0; /* Placeret helt i toppen */
+    left: 0; /* Placeret helt til venstre */
+    right: 0; /* Placeret helt til højre */
+    bottom: 0; /* Placeret helt nederst */
+    background-color: var(--jet); /* Baggrundsfarven */
+    z-index: 4; /* Ligger i et lag der er over default, men stadig under navbaren, hvilken stadig er synlig trods overlay'et */
+    overflow: scroll; /* Gør det - sammen med overflow: auto; på body - muligt at scroll' i overlays */
+}
+
+/* H3 og P i .overlay-article */
+.overlay-article h3, .overlay-article p {
+    color: var(--ivory); /* Tekstfarve */
+}
+
+
+/* H3 i .overlay-article */
+.overlay-article h3 {
+    padding-top: 6rem; 
+    padding-bottom: 1rem;
+    font-size: var(--h3-fs-m);
+    font-weight: var(--h3-fw-m);
+    line-height: var(--h3-lh-m);
+    letter-spacing: var(--h3-ls-m);
+}
+
+/* P i .overlay-article */
+.overlay-article p {
+    padding: .5rem 0;
+    font-size: var(--p-fs-m);
+    font-weight: var(--p-fw-m);
+    line-height: var(--p-lh-m);
+    margin-bottom: 2.5rem; /* Giver lidt luft mellem bunden af viewporten og kilderne i artiklerne, så de stadig kan ses ordentligt */
+}
+
+/* "Horizontal rule" lavet med divs - de horisontale streger på siden */
+.rule-wrapper {
+    width: 90vw; /* Deres bredde */
+    max-width: 31.25rem; /* Der er sat en maks bredde */
+    height: .1rem; /* Tykkelsen på stregen er .1rem / 1.6px */
+    background-color: #353535; /* Farven på stregen */
+    margin: 1rem 0; /* Der er en margin på 1rem på top og bund for at skabe luft omkring stregen */
+}
+/*--- OVERLAY END ---*/
+
+
+/*--- INSPIRATION END ---*/
+
+
+/* Illustrationerne på siden */
+.wide-pic {
+    width: 90vw; /* Bredden er sat op 90vw */
+    max-width: 31.25rem; /* Der er sat en maks bredde */
+    padding-bottom: 1.5rem; /* Padding bottom for at skabe luft under illustrationerne */
+}
+
+/* Tablet-størrelse illustrationer */
+.t-pic {
+    display: none; /* Display none, hvilket ændres med media queries */
+}
+
+/*--- EN WRAPPER TIL KNAPPERNE I VORES MAIN SECTIONS PÅ SIDEN ---*/
+.main-btn-wrapper {
+    width: 10.9375rem;
+    height: 1.875rem;
+    background-color: var(--jet);
+    border-radius: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--p-fs-m);
+    font-weight: var(--p-fw-m);
+    margin: .5rem 0;
+    cursor: pointer;
+}
+
+/*--- KNAPPERNE I VORES MAIN SECTIONS PÅ SIDEN ---*/
+.main-btn {
+    color: var(--ivory);
+    letter-spacing: var(--p-ls-m);
+}
+
+
+/*---------------------------------------- MAIN END ----------------------------------------*/
+
+
+
+/*---------------------------------------- FOOTER START ----------------------------------------*/
+
+/*--- FOOTER GENEREL ---*/
+footer {
+    width: 100%; /* 100% af body's bredde */
+    height: 13.75rem;
+    display: flex; /* Footer er en flex-container */
+    flex-direction: column; /* Flex-retningen er kolonne */
+    align-items: center; /* Children er horisontalt centrerede (da flex-retningen er kolonne) */
+    text-align: center; /* Teksten er centreret */
+    justify-content: space-around; /* Children er vertikalt fordelt med luft omkring */
+}
+
+/*--- FOOTER LOGO ---*/
+footer .logo {
+    margin: 1rem 0 .5rem 0; /* Der er skabt lidt ekstra luft omkring logoet i footeren med margin: top - 1rem, højre - 0, bund - .5rem, venstre - 0 */
+}
+
+/*--- CLASS NAVN PÅ VORES <A> I VORES <LI> I VORES FOOTER <UL> - FAQ + NYHEDSBREV ---*/
+.a-foot {
+    font-size: var(--a-list-fs-m);
+    font-weight: var(--a-list-fw-m);
+    line-height: var(--a-list-lh-m);
+}
+
+/*--- WRAPPER TIL VORES SoMe-IKONER I FOOTEREN ---*/
+.some-wrapper {
+    display: flex; /* Containeren er en flex-container */
+    min-width: 10.9375rem; /* minimum bredde på wrapperen */
+    justify-content: space-around; /* Children er fordelt horisontalt med luft omkring */
+    align-items: center; /* Children er vertikalt centrerede */
+}
+
+/*--- VORES SoMe-IKONER I FOOTEREN ---*/
+.some-icon {
+    width: 2.625rem; /* Bredde på SoMe-ikoner */
+    height: 2.625rem; /* Højde på SoMe-ikoner */
+}
+
+
+/*---------------------------------------- FOOTER END ----------------------------------------*/
+
+
+/*---------------------------------------- BREAKPOINTS TABLET ----------------------------------------*/
+
+@media screen and (min-width: 768px) {
+    
+    /* HEADER FORSIDE */
+    header.fp {
+        height: 28.125rem; /* 450px */ /* Headeren bliver lidt højere, da hero billedet ændres */
+    }
+
+    /* HERO IMG WRAPPER*/
+    .inner-hero-wrapper.mobile {
+        display: none; /* Mobile hero img skjules */
+    }
+    .inner-hero-wrapper.tablet {
+        display: block; /* Tablet hero img vises */
+    }
+    .inner-hero-wrapper.desktop {
+        display: none; /* Desktop hero img er stadig skjult */
+    }
+
+    /* HERO IMAGE */
+    .fp-aeske {
+        left: 50%; /* Center er 50% fra venstre */
+        transform: translateX(-50%);
+        margin-top: 14rem; /* 14rem på top margin for at placere img rigtigt, vertikalt */
+    }
+
+    /* HERO BTN WRAPPER */
+    .hero-btn-wrapper {
+        top: 25rem; /* Wrapperen er placeret 25rem fra toppen */
+        position: absolute; /* Wrapperens placering er absolute, så den ikke rykker sig */
+    }
+
+    /*--- MAIN ---*/
+
+    /* BREDDEN PÅ BROEDTEKST, HORIZONTAL RULE OG UNDERSIDERNES TITLER */
+    .broed, .rule-wrapper, .title-sub {
+        width: 75vw;
+        max-width: 45rem;
+    }
+
+    /* Illustrationerne i main sections mindskes en smule for at de ikke bliver for dominerende */
+    .wide-pic {
+        width: 60vw;
+    }
+
+    /* Nogle mobile størrelse img'er skjules */
+    .m-pic {
+        display: none;
+    }
+
+    /* De skjulte img'er erstattes af større img'er */
+    .t-pic {
+        display: block;
+    }
+}
+
+
+
+
+/*---------------------------------------- BREAKPOINTS DESKTOP ----------------------------------------*/
+
+@media screen and (min-width: 1080px) {
+    
+
+    /* HERO IMG WRAPPER */
+    .inner-hero-wrapper.mobile {
+        display: none; /* Mobile hero img forbliver skjult */
+    }
+    .inner-hero-wrapper.tablet {
+        display: none; /* Tablet hero img skjules */
+    }
+    .inner-hero-wrapper.desktop {
+        display: block; /* Desktop hero img vises */
+    }
+
+    /* HERO IMAGE */
+    .fp-aeske {
+        top: 7rem; /* Hero img placeres 7rem fra toppen for at opnå den rette placering */
+        margin: auto; /* Bidrager også til den rette placering */
+    }
+
+    /* MAIN */
+
+    /* Bredden på broedtekst, horizontal rule og undersidernes overskrifter tilpasses desktop */
+    .broed, .rule-wrapper, .title-sub {
+        width: 80vw;
+        max-width: 55rem;
+    }
+}
